@@ -9,7 +9,7 @@ List<Person> people = new List<Person>()
     new Person("Tod", "Vachey", 20, 55, 180, Gender.Male),
     new Person("Anna", "Williams", 24, 77, 164, Gender.Female),
     new Person("Maria", "Ann", 55, 16, 160, Gender.Female),
-    new Person("John", "117", 130, 49,218, Gender.Male),
+    new Person("John", "117", 49, 130,218, Gender.Male),
     new Person("Anna", "Rodriguez", 26, 69, 174, Gender.Female)
 };
 
@@ -101,6 +101,8 @@ foreach (var key in orderedKeys)
 /* INTO KEYWORD */
 
 // Group by age and order by age
+Console.WriteLine(new string('-', 40));
+
 var peopleByAge = from p in people
                    group p by p.Age into ageGroup
                    orderby ageGroup.Key
@@ -138,24 +140,47 @@ Console.WriteLine(new string('-', 40));
 int[] arrayOfNumbers = { 5, 6, 3, 2, 1, 5, 7, 234, 54, 14, 653, 3, 4, 5, 6, 7 };
 
 var evenOrOddNumbers = from n in arrayOfNumbers
-                       let evenOrOdd = (n % 2 == 0)
+                       //let evenOrOdd = (n % 2 == 0)
+                       let evenOrOdd = (n % 2 == 0) ? "Even" : "Odd" //Here we change it for a ternari operator to have a better groups's titles
                        group n by evenOrOdd into nums
                        orderby nums.Count()
                        select nums;
 
 foreach (var key in evenOrOddNumbers)
 {
-    Console.WriteLine($"IsEven?: {key.Key}");
+    Console.WriteLine($"{key.Key}");
     foreach (var n in key)
     {
         Console.WriteLine($"    {n}");
     }
 }
 
-string[] words = new string[] {};
+// Group people in three groups: young, adults and seniors
+Console.WriteLine(new string('-', 40));
 
-int? max = (words.Any()) ? words.Max(word => word.Length) : null;
+var peopleAgeGroup = from p in people
+                     let ageSelection = (p.Age <= 18) ? "Young" :
+                                      (p.Age > 18 && p.Age <= 60) ? "Adult" : "Senior"
+                     group p by ageSelection;
 
+foreach (var key in peopleAgeGroup)
+{
+    Console.WriteLine(key.Key);
+    foreach (var p in key)
+    {
+        Console.WriteLine($"    Name: {p.FirstName} Age: {p.Age}");
+    }
+}
 
+// Count how many people are by gender group
+Console.WriteLine(new string('-', 40));
 
-Console.WriteLine(max);
+var howManyEachGroup = from p in people
+                       group p by p.Gender into g
+                       select new { Gender = g.Key, NumOfPeople = g.Count() };
+
+foreach (var g in howManyEachGroup)
+{
+    Console.WriteLine($"{g.Gender}");
+    Console.WriteLine($"    {g.NumOfPeople}");
+}
