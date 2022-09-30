@@ -41,7 +41,35 @@ Console.WriteLine($" There is at least one character is less than 'f': {st1.Any(
 Console.WriteLine($" The colletion have elements: {st1.Any()}");
 
 Console.WriteLine($" The collection contains the character 'c': {st2.Contains('c')}");
+
 Console.WriteLine($" The collection contains the number zero: {ints.Contains(0)}");
 
-Console.WriteLine();
+
+/* CONCAT METHOD */
+
+int[] ints6 = new int[] { 1, 2, 2, 2, 3, 3, 4, 5, 6, 5 };
+int[] ints7 = new int[] { 1, 2, 2, 2, 2, 2, 2 };
+
+int[] concatenated = ints6.Concat(ints7).ToArray();
+
+int[] concatenated2 = ints.Concat(ints6.Concat(ints7)).ToArray();
+
+int[] intsHalfSquared = ints.Take(ints.Length / 2)
+                            .Concat(ints.Skip(ints.Length / 2)
+                                .Select(n => n * n))
+                            .ToArray();
+
+/* AGGREGATE, SUM, MAX, MIN METHODS*/
+
+int intsSum = ints6.Aggregate( (p, n) => p+n);
+
+int intsSum2 = ints6.Sum();
+
+double intAverage = ints6.Average();
+
+Console.WriteLine($"Max: {ints.Max()}");
+
+Console.WriteLine($"Min: {ints.Min()}");
+
+Console.WriteLine("Nos vemos denuevo 7u7");
 
